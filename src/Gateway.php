@@ -7,7 +7,7 @@ use Omnipay\Common\AbstractGateway;
 /**
  * PayTrace Gateway
  */
-class PayTraceGateway extends AbstractGateway
+class Gateway extends AbstractGateway
 {
     public function getName()
     {
