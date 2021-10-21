@@ -10,15 +10,37 @@ use Omnipay\Common\Message\RequestInterface;
  */
 class Response extends AbstractResponse
 {
-    public function __construct(RequestInterface $request, $data)
+    protected $statusCode;
+
+    public function __construct(RequestInterface $request, $data, $statusCode = 200)
     {
+        //parent::__construct($request, $data);
+        $this->statusCode = $statusCode;
         $this->request = $request;
         $this->data = $data;
     }
 
     public function isSuccessful()
     {
-        return isset($this->data['success']);
+        return empty($this->data['error']) && $this->getCode() < 400;
+    }
+
+    public function getMessage()
+    {
+        if (isset($this->data['error_description'])) {
+            return $this->data['error_description'];
+        }
+
+        if (isset($this->data['message'])) {
+            return $this->data['message'];
+        }
+
+        return null;
+    }
+
+    public function getCode()
+    {
+        return $this->statusCode;
     }
 
     public function getTransactionReference()
