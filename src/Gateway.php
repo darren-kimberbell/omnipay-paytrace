@@ -20,7 +20,7 @@ class Gateway extends AbstractGateway
             'token' => '',
             'username' => '',
             'password' => '',
-            'intigratorId' => '',
+            'integratorId' => '',
             'testMode' => false,
         );
     }
@@ -167,7 +167,7 @@ class Gateway extends AbstractGateway
      */
     public function getIntegratorId()
     {
-        return $this->getParameter('intigratorId');
+        return $this->getParameter('integratorId');
     }
 
     /**
@@ -178,7 +178,7 @@ class Gateway extends AbstractGateway
      */
     public function setIntegratorId($value)
     {
-        return $this->setParameter('intigratorId', $value);
+        return $this->setParameter('integratorId', $value);
     }
 
     /**
@@ -206,10 +206,98 @@ class Gateway extends AbstractGateway
     }
 
     /**
+     * Authorize a transaction
+     *
+     * @param array $parameters
      * @return Message\AuthorizeRequest
      */
     public function authorize(array $parameters = array())
     {
         return $this->createRequest('\Omnipay\PayTrace\Message\AuthorizeRequest', $parameters);
     }
+
+    /**
+     * Store a credit card in the vault
+     *
+     * You can currently use the vault API to store credit card details
+     * with PayTrace instead of storing them on your own server. After storing
+     * a credit card, you can then pass the credit card id instead of the
+     * related credit card details to complete a payment.
+     *
+     * @param array $parameters
+     * @return \Omnipay\PayTrace\Message\CreateCardRequest
+     */
+    public function createCard(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\PayTrace\Message\CreateCardRequest', $parameters);
+    }
+
+    /**
+     * Update a credit card in the vault
+     *
+     * @param array $parameters
+     * @return \Omnipay\PayTrace\Message\UpdateCardRequest
+     */
+    public function updateCard(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\PayTrace\Message\UpdateCardRequest', $parameters);
+    }
+
+    /**
+     * Delete a credit card from the vault
+     *
+     * @param array $parameters
+     * @return \Omnipay\PayTrace\Message\DeleteCardRequest
+     */
+    public function deleteCard(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\PayTrace\Message\DeleteCardRequest', $parameters);
+    }
+
+    /**
+     * Capture a pre-authorized transaction
+     *
+     * @param array $parameters
+     * @return Message\CaptureRequest
+     */
+    public function capture(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\PayTrace\Message\CaptureRequest', $parameters);
+    }
+
+    /**
+     * Complete an authorized request - same as capture?
+     *
+     * @param array $parameters
+     * @return Message\CaptureRequest
+     */
+    public function completeAuthorize(array $parameters = array())
+    {
+        return $this->capture($parameters);
+    }
+
+    // Not yet implemented
+    public function purchase(array $parameters = array())
+    {
+        return false;
+    }
+
+    // Not yet implemented
+    public function completePurchase(array $parameters = array())
+    {
+        return false;
+    }
+
+    // Not yet implemented
+    public function refund(array $parameters = array())
+    {
+        return false;
+    }
+
+    // Not yet implemented
+    public function void(array $parameters = array())
+    {
+        return false;
+    }
+
 }

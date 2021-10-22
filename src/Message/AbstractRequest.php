@@ -58,6 +58,16 @@ abstract class AbstractRequest extends BaseAbstractRequest
         return $this->setParameter('password', $value);
     }
 
+    public function getIntegratorId()
+    {
+        return $this->getParameter('integratorId');
+    }
+
+    public function setIntegratorId($value)
+    {
+        return $this->setParameter('integratorId', $value);
+    }
+
     /**
      * Get HTTP Method.
      *
@@ -131,6 +141,46 @@ abstract class AbstractRequest extends BaseAbstractRequest
             return json_encode($data, $options | 64);
         }
         return str_replace('\\/', '/', json_encode($data, $options));
+    }
+
+    /**
+     * Returns a Unique ID string
+     *
+     * @param integer $length
+     * @return string
+     */
+    public function uniqueId($length = 13) {
+        // uniqid gives 13 chars, but you could adjust it to your needs.
+        if (function_exists("random_bytes")) {
+            $bytes = random_bytes(ceil($length / 2));
+        } elseif (function_exists("openssl_random_pseudo_bytes")) {
+            $bytes = openssl_random_pseudo_bytes(ceil($length / 2));
+        } else {
+            $bytes = uniqid("",true);
+        }
+        return trim(substr(bin2hex($bytes), 0, $length));
+    }
+
+    /**
+     * Checks for a valid Credit Card Number
+     *
+     * @param integer $cc
+     * @return boolean
+     */
+    function checkCC($cc) {
+        $cards = array(
+            "visa" => "(4\d{12}(?:\d{3})?)",
+            "amex" => "(3[47]\d{13})",
+            "jcb" => "(35[2-8][89]\d\d\d{10})",
+            "maestro" => "((?:5020|5038|6304|6579|6761)\d{12}(?:\d\d)?)",
+            "solo" => "((?:6334|6767)\d{12}(?:\d\d)?\d?)",
+            "mastercard" => "(5[1-5]\d{14})",
+            "switch" => "(?:(?:(?:4903|4905|4911|4936|6333|6759)\d{12})|(?:(?:564182|633110)\d{10})(\d\d)?\d?)",
+        );
+        $matches = array();
+        $pattern = "#^(?:".implode("|", $cards).")$#";
+        $result = preg_match($pattern, str_replace(" ", "", $cc), $matches);
+        return ($result>0) ? true : false;
     }
 
     protected function createResponse($data, $statusCode)

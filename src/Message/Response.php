@@ -22,7 +22,12 @@ class Response extends AbstractResponse
 
     public function isSuccessful()
     {
-        return empty($this->data['error']) && $this->getCode() < 400;
+        return empty($this->data['error']) &&
+            ($this->getCode() < 400) &&
+            (
+             (!empty($this->data['success']) && (bool) $this->data['success']) ||
+             (!empty($this->data['access_token']))
+            );
     }
 
     public function getMessage()
@@ -31,8 +36,8 @@ class Response extends AbstractResponse
             return $this->data['error_description'];
         }
 
-        if (isset($this->data['message'])) {
-            return $this->data['message'];
+        if (isset($this->data['status_message'])) {
+            return $this->data['status_message'];
         }
 
         return null;
@@ -45,8 +50,15 @@ class Response extends AbstractResponse
 
     public function getTransactionReference()
     {
-        if (isset($this->data['reference'])) {
-            return $this->data['reference'];
+        if (isset($this->data['transaction_id'])) {
+            return $this->data['transaction_id'];
+        }
+    }
+
+    public function getCardReference()
+    {
+        if (isset($this->data['customer_id'])) {
+            return $this->data['customer_id'];
         }
     }
 
