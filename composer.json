@@ -26,11 +26,6 @@
             "Omnipay\\PayTrace\\": "src/"
         }
     },
-    "autoload-dev": {
-        "psr-4": {
-            "League\\PayTrace\\Test\\": "tests"
-        }
-    },
     "scripts": {
         "test": "phpunit",
         "check-style": "phpcs -p --standard=PSR2 src/",
