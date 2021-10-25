@@ -19,7 +19,7 @@ $ composer require league/omnipay darren-kimberbell/omnipay-paytrace
 
 The following gateways are provided by this package:
 
- * paytrace
+ * PayTrace
 
 For general usage instructions, please see the main [Omnipay](https://github.com/thephpleague/omnipay) repository.
 
