@@ -18,6 +18,8 @@ class CreateCardRequest extends AbstractRequest
         $data = array(
             'customer_id' => $customerId,
             'integrator_id' => $this->getIntegratorId(),
+            'email' => $this->getCard()->getEmail(),
+            'phone' => $this->getCard()->getPhone(),
             'credit_card' => array(
                 $cardField => $this->getCard()->getNumber(),
                 'expiration_month' => $this->getCard()->getExpiryMonth(),

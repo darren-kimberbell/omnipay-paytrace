@@ -25,6 +25,11 @@ class Gateway extends AbstractGateway
         );
     }
 
+    public function getParameters()
+    {
+        return parent::getParameters();
+    }
+
     /**
      * Get OAuth access token.
      *
@@ -276,28 +281,63 @@ class Gateway extends AbstractGateway
         return $this->capture($parameters);
     }
 
-    // Not yet implemented
+    /**
+     * Process a sale transaction (auth/capture)
+     *
+     * @param array $parameters
+     * @return Message\PurchaseRequest
+     */
     public function purchase(array $parameters = array())
     {
-        return false;
+        return $this->createRequest('\Omnipay\PayTrace\Message\PurchaseRequest', $parameters);
     }
 
-    // Not yet implemented
+    /**
+     * Not needed?
+     *
+     * I really don't know what this function is for, as the
+     * purchase transaction includes both auth and capture.
+     *
+     * I have included it only because it is required by the
+     * GatewayInterface PHP interface
+     *
+     */
     public function completePurchase(array $parameters = array())
     {
-        return false;
+        return true;
     }
 
-    // Not yet implemented
+    /**
+     * Process a refund transaction
+     *
+     * @param array $parameters
+     * @return Message\RefundRequest
+     */
     public function refund(array $parameters = array())
     {
-        return false;
+        return $this->createRequest('\Omnipay\PayTrace\Message\RefundRequest', $parameters);
     }
 
-    // Not yet implemented
+    /**
+     * Void an unsettled transaction
+     *
+     * @param array $parameters
+     * @return Message\VoidRequest
+     */
     public function void(array $parameters = array())
     {
-        return false;
+        return $this->createRequest('\Omnipay\PayTrace\Message\VoidRequest', $parameters);
+    }
+
+    /**
+     * Fetch a Sale Transaction
+     *
+     * @param array $parameters
+     * @return \Omnipay\PayTrace\Message\FetchTransactionRequest
+     */
+    public function fetchTransaction(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\PayTrace\Message\FetchTransactionRequest', $parameters);
     }
 
 }

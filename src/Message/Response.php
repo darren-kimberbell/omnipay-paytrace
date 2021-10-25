@@ -36,6 +36,21 @@ class Response extends AbstractResponse
             return $this->data['error_description'];
         }
 
+        if (
+            isset($this->data['errors']) &&
+            is_array($this->data['errors']) &&
+            !empty($this->data['errors'])
+        ) {
+            $errorTxt = "";
+            foreach ($this->data['errors'] as $error) {
+                foreach ($error as $errorCode => $errorDesc) {
+                    if ($errorTxt) $errorTxt.=", ";
+                    $errorTxt .= $errorDesc;
+                }
+            }
+            if ($errorTxt) return "One or more errors has occurred. ($errorTxt)";
+        }
+
         if (isset($this->data['status_message'])) {
             return $this->data['status_message'];
         }

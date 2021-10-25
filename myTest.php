@@ -51,27 +51,35 @@ $cardData = array(
     'billingState' => 'UT',
     'billingPostcode' => '84341',
     'billingCountry' => 'US',
+    'email' => 'darren@kimberbell.com',
+    'phone' => '435-603-0589',
 );
 
 //$response = $gateway->createCard(['card'=>$formData])->send();
 
 // existing customer in sandbox - 770806453113a
 
-$formData = array(
-    'amount' => 1.00,
-    'transactionId' => "test-".time(),
-    //'cardReference' => "770806453113a",
-    'description' => "Development Test Transaction",
-    'card' => $cardData
-);
+// $formData = array(
+//     'amount' => 2.00,
+//     'transactionId' => "test-".time(),
+//     'cardReference' => "770806453113a",
+//     'description' => "Development Test Transaction w/Customer",
+//     'card' => $cardData
+// );
 
 //$response = $gateway->authorize($formData)->send();
+//$response = $gateway->purchase($formData)->send();
+
+// $formData = array(
+//     'amount' => 1.00,
+//     'transactionReference' => '423730109',
+// );
+// $response = $gateway->capture($formData)->send();
 
 $formData = array(
-    'amount' => 1.00,
-    'transactionReference' => '423730109',
+    'transactionReference' => '423935670',
 );
-$response = $gateway->capture($formData)->send();
+$response = $gateway->void($formData)->send();
 
 
 // Process response
@@ -80,10 +88,13 @@ if ($response->isSuccessful()) {
     // Payment was successful
     //print_r($response);
     print_r("Transaction Successfull!");
+    print_r($response->getData());
 
 } else {
 
     // Payment failed
+    print_r($response->getData());
+    print_r("----------------------------\n");
     print_r($response->getMessage());
 }
 

@@ -1,11 +1,11 @@
 <?php
 /**
- * PayTrace Authorize Transaction Request
+ * PayTrace Purchase Transaction Request
  */
 
 namespace Omnipay\PayTrace\Message;
 
-class AuthorizeRequest extends AbstractRequest
+class PurchaseRequest extends AbstractRequest
 {
 
     public function getData()
@@ -62,9 +62,9 @@ class AuthorizeRequest extends AbstractRequest
     protected function getEndpoint()
     {
         if ($this->getCardReference()) {
-            return parent::getEndpoint() . '/v1/transactions/authorization/by_customer';
+            return parent::getEndpoint() . '/v1/transactions/sale/by_customer';
         } else {
-            return parent::getEndpoint() . '/v1/transactions/authorization/keyed';
+            return parent::getEndpoint() . '/v1/transactions/sale/keyed';
         }
     }
 
