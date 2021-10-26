@@ -302,10 +302,10 @@ class Gateway extends AbstractGateway
      * GatewayInterface PHP interface
      *
      */
-    public function completePurchase(array $parameters = array())
-    {
-        return true;
-    }
+    //public function completePurchase(array $parameters = array())
+    //{
+    //    return true;
+    //}
 
     /**
      * Process a refund transaction
